@@ -78,11 +78,8 @@ def create_multi_shift_basis(A, B, C, sigmas):
 
     for i, sigma in enumerate(sigmas):
 
-        lu, piv = spl.lu_factor(sigma * In - A)
-        V[:, i] = spl.lu_solve((lu, piv), B)
-
-        lu, piv = spl.lu_factor(sigma * In - A.T)
-        W[:, i] = spl.lu_solve((lu, piv), C)
+        V[:, i] = spl.solve(sigma * In - A, B)
+        W[:, i] = spl.solve(sigma * In - A.T, C)
 
     W = util_la.biorth(W, V)
     return V, W
